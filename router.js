@@ -1,14 +1,11 @@
 const express = require('express')
 const admin = require("firebase-admin");
-
-let router = express.Router()
+const router = express.Router()
 
 router.get('/cars', (req, res) => {
-
-  carGet().then((firestoreData) => {
+  carGET().then((firestoreData) => {
     res.send(firestoreData);
   })
-
 })
 
 router.post('/car', (req, res, next) => {
@@ -23,7 +20,7 @@ router.delete('/car/:id', (req, res, next) => {
   })
 })
 
-const carGet = function () {
+const carGET = function () {
   return new Promise(async function (resolve, reject) {
     // #1 Read
     const carCollection = admin.firestore().collection('cars');
@@ -65,7 +62,7 @@ const carPOST = function (body) {
   });
 }
 
-const carDELETE = function(id) {
+const carDELETE = function (id) {
   return new Promise(async function (resolve, reject) {
     await admin.firestore().collection('cars').doc(id).delete();
     resolve(200);
